@@ -1,0 +1,18 @@
+{
+  "name": "Detoxify",
+  "description": "Detoxify your digital experience",
+  "version": "0.1",
+  "manifest_version": 3,
+  "permissions": ["bookmarks"],
+  "action": {
+    "default_title": "Detoxify",
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/youtube.js"],
+      "matches": ["https://*.youtube.com/*"]
+    }
+  ]
+}
