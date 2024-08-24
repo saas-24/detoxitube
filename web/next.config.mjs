@@ -16,7 +16,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "avatars.githubusercontent.com", // Add this line
+        hostname: "avatars.githubusercontent.com",
       },
     ],
   },
