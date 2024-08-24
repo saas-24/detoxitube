@@ -1,3 +1,13 @@
-export default function Page() {
-  return <p>Dashboard Page</p>;
+"use client";
+
+import { fetchAuthSession } from "aws-amplify/auth";
+import { useEffect } from "react";
+
+export default function DashboardPage() {
+  useEffect(() => {
+    fetchAuthSession().then((session) => {
+      console.log(session);
+    });
+  }, []);
+  return <>Dashboard</>;
 }
