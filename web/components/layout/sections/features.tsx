@@ -10,40 +10,40 @@ interface FeaturesProps {
 
 const featureList: FeaturesProps[] = [
   {
-    icon: "TabletSmartphone",
-    title: "Mobile Friendly",
+    icon: "SlidersHorizontal",
+    title: "Customizable Filters",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A odio velit cum aliquam, consectetur.",
+      "Set your own topics and interests. DetoxiTube filters your YouTube feed based on your personal preferences.",
   },
   {
-    icon: "BadgeCheck",
-    title: "Social Proof",
+    icon: "ShieldCheck",
+    title: "Privacy Focused",
     description:
-      "Lorem ipsum dolor sit amet consectetur. Natus consectetur, odio ea accusamus aperiam.",
+      "DetoxiTube respects your privacy. Your preferences are stored locally, ensuring your data stays with you.",
   },
   {
-    icon: "Goal",
-    title: "Targeted Content",
+    icon: "Layers",
+    title: "Seamless Integration",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. odio ea accusamus aperiam.",
+      "Easily integrates into your existing YouTube experience. No complicated setup required.",
   },
   {
-    icon: "PictureInPicture",
-    title: "Strong Visuals",
+    icon: "EyeOff",
+    title: "Blur Unrelated Content",
     description:
-      "Lorem elit. A odio velit cum aliquam. Natus consectetur dolores, odio ea accusamus aperiam.",
+      "Automatically blurs out videos and content that do not match your specified topics, keeping distractions at bay.",
   },
   {
-    icon: "MousePointerClick",
-    title: "Clear CTA",
+    icon: "Bell",
+    title: "Real-Time Updates",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing. odio ea accusamus consectetur.",
+      "Stay updated with real-time filtering. DetoxiTube continuously monitors and updates your feed based on your chosen topics.",
   },
   {
-    icon: "Newspaper",
-    title: "Clear Headline",
+    icon: "RefreshCcw",
+    title: "Quick and Efficient",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A odio velit cum aliquam. Natus consectetur.",
+      "Lightweight and fast. DetoxiTube doesn’t slow down your browsing experience, ensuring smooth and efficient operation.",
   },
 ];
 

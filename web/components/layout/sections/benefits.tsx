@@ -10,28 +10,28 @@ interface BenefitsProps {
 
 const benefitList: BenefitsProps[] = [
   {
-    icon: "Blocks",
-    title: "Build Brand Trust",
+    icon: "Filter",
+    title: "Stay Focused",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A odio velit cum aliquam. Natus consectetur dolores.",
+      "DetoxiTube filters your YouTube feed to show only the videos that matter to you, helping you stay focused and productive.",
   },
   {
-    icon: "LineChart",
-    title: "More Leads",
+    icon: "Clock",
+    title: "Save Time",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A odio velit cum aliquam, natus consectetur.",
+      "No more endless scrolling or getting lost in rabbit holes. DetoxiTube saves you time by cutting out irrelevant content.",
   },
   {
-    icon: "Wallet",
-    title: "Higher Conversions",
+    icon: "ThumbsUp",
+    title: "Personalized Experience",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus consectetur. A odio velit cum aliquam",
+      "Customize your YouTube feed based on your interests and priorities. DetoxiTube ensures you see only what you want to see.",
   },
   {
-    icon: "Sparkle",
-    title: "Test Marketing Ideas",
+    icon: "Eye",
+    title: "Reduce Distractions",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A odio velit cum aliquam. Natus consectetur dolores.",
+      "With DetoxiTube, irrelevant videos are blurred out, allowing you to focus on content that aligns with your goals.",
   },
 ];
 
@@ -46,9 +46,9 @@ export const BenefitsSection = () => {
             Your Shortcut to Success
           </h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non
-            ducimus reprehenderit architecto rerum similique facere odit
-            deleniti necessitatibus quo quae.
+            DetoxiTube helps you take control of your YouTube experience by
+            filtering out unwanted content and keeping you focused on what's
+            important.
           </p>
         </div>
 

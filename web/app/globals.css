@@ -6,7 +6,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* *=========== Orange theme =========== */
+/* *=========== Red theme =========== */
 @layer base {
   :root {
     --background: 0 0% 100%;

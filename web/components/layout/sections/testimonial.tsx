@@ -27,51 +27,50 @@ interface ReviewProps {
 const reviewList: ReviewProps[] = [
   {
     image: "https://github.com/shadcn.png",
-    name: "John Doe",
-    userName: "Product Manager",
+    name: "Emily Thompson",
+    userName: "Content Creator",
     comment:
-      "Wow NextJs + Shadcn is awesome!. This template lets me change colors, fonts and images to match my brand identity. ",
+      "DetoxiTube has transformed my YouTube experience. Now, I only see videos that are relevant to my interests. It's a game-changer!",
     rating: 5.0,
   },
   {
     image: "https://github.com/shadcn.png",
-    name: "Sophia Collins",
-    userName: "Cybersecurity Analyst",
+    name: "Michael Brown",
+    userName: "Software Developer",
     comment:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. ",
+      "I love how DetoxiTube helps me stay focused. It's so much easier to avoid distractions and get the most out of my time.",
     rating: 4.8,
   },
-
   {
     image: "https://github.com/shadcn.png",
-    name: "Adam Johnson",
-    userName: "Chief Technology Officer",
+    name: "Olivia Johnson",
+    userName: "Digital Marketer",
     comment:
-      "Lorem ipsum dolor sit amet,exercitation. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+      "With DetoxiTube, I can filter out the noise and focus on the content that matters. It's incredibly efficient!",
     rating: 4.9,
   },
   {
     image: "https://github.com/shadcn.png",
-    name: "Ethan Parker",
-    userName: "Data Scientist",
+    name: "Lucas Smith",
+    userName: "Freelance Designer",
     comment:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod labore et dolore magna aliqua. Ut enim ad minim veniam.",
+      "DetoxiTube is a must-have for anyone who spends a lot of time on YouTube. It really helps me manage my time better.",
     rating: 5.0,
   },
   {
     image: "https://github.com/shadcn.png",
-    name: "Ava Mitchell",
-    userName: "IT Project Manager",
+    name: "Ava Martinez",
+    userName: "Student",
     comment:
-      "Lorem ipsum dolor sit amet, tempor incididunt  aliqua. Ut enim ad minim veniam, quis nostrud incididunt consectetur adipiscing elit.",
+      "Thanks to DetoxiTube, I can now focus on educational content without getting distracted by unrelated videos. Highly recommended!",
     rating: 5.0,
   },
   {
     image: "https://github.com/shadcn.png",
-    name: "Isabella Reed",
-    userName: "DevOps Engineer",
+    name: "James Wilson",
+    userName: "Entrepreneur",
     comment:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "DetoxiTube is perfect for professionals who need to stay focused. It filters out distractions and helps me stay productive.",
     rating: 4.9,
   },
 ];
@@ -85,7 +84,7 @@ export const TestimonialSection = () => {
         </h2>
 
         <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
-          Hear What Our 1000+ Clients Say
+          Hear What People Say
         </h2>
       </div>
 
@@ -115,14 +114,6 @@ export const TestimonialSection = () => {
 
                 <CardHeader>
                   <div className="flex flex-row items-center gap-4">
-                    <Avatar>
-                      <AvatarImage
-                        src="https://avatars.githubusercontent.com/u/75042455?v=4"
-                        alt="radix"
-                      />
-                      <AvatarFallback>SV</AvatarFallback>
-                    </Avatar>
-
                     <div className="flex flex-col">
                       <CardTitle className="text-lg">{review.name}</CardTitle>
                       <CardDescription>{review.userName}</CardDescription>
