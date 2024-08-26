@@ -1,6 +1,8 @@
 "use client";
+import { LoginButton } from "@/components/auth/login-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 

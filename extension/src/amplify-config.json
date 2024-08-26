@@ -1,0 +1,23 @@
+{
+  "Auth": {
+    "Cognito": {
+      "userPoolId": "ap-south-1_VwZHgYFfr",
+      "userPoolClientId": "4jb8ffl31l44ihmkj70c3rvkp3",
+      "signUpVerificationMethod": "code",
+      "loginWith": {
+        "oauth": {
+          "domain": "detoxify.auth.ap-south-1.amazoncognito.com",
+          "redirectSignIn": ["http://localhost:3000/dashboard"],
+          "redirectSignOut": ["http://localhost:3000"],
+          "responseType": "code",
+          "scopes": [
+            "email",
+            "phone",
+            "aws.cognito.signin.user.admin",
+            "openid"
+          ]
+        }
+      }
+    }
+  }
+}

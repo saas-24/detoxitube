@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 console.log("on server");
-Amplify.configure(config as any, { ssr: true });
+// Amplify.configure(config as any, { ssr: true });
 
 export default function RootLayout({
   children,
@@ -32,7 +32,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <AmplifyProvider>
+            {/* <Navbar /> */}
+            {children}
+          </AmplifyProvider>
         </ThemeProvider>
       </body>
     </html>

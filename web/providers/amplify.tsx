@@ -4,7 +4,7 @@ import { Amplify } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react";
 import config from "@/amplify-config.json";
 
-Amplify.configure(config as any);
+Amplify.configure(config as any, { ssr: true });
 
 export default function AmplifyProvider({
   children,
