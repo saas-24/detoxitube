@@ -1,21 +1,14 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { CRX_ID } from "@/constants";
 import useKeywords from "@/hooks/useKeywords";
 import { sendTokenToChromeExtension } from "@/utils/auth";
+import { X } from "lucide-react";
 import { Ref, useEffect, useRef } from "react";
 
 export default function DashboardPage() {
-  // useEffect(() => {
-  //   fetchAuthSession().then((session) => {
-  //     if (
-  //       session.tokens?.accessToken === undefined ||
-  //       session.tokens?.idToken === undefined
-  //     ) {
-  //       // window.location.href = "/login";
-  //     }
-  //   });
-  // }, []);
   return <Dashboard />;
 }
 
@@ -31,31 +24,27 @@ function Dashboard() {
     console.log(sessionData);
     sendTokenToChromeExtension({ extensionId: CRX_ID, session: sessionData });
   }, []);
-  return (
-    <div>
-      <Keywords />
-    </div>
-  );
+  return <Keywords />;
 }
 
 function Keywords() {
   const { addKeyword, keywords, removeKeyword } = useKeywords();
   const inputRef: Ref<HTMLInputElement> = useRef(null);
   return (
-    <div>
-      <h1>Keywords</h1>
-      <div className="flex space-x-2">
+    <div className="w-[720px] mx-auto">
+      <h1 className="text-2xl font-semibold my-3 mb-5">Keywords</h1>
+      <div className="flex gap-3 w-full flex-wrap p-3 border-neutral-800 border rounded-lg">
         {keywords.map((keyword) => (
           <div
             key={keyword}
-            className="bg-white p-2 px-3 flex items-center text-black rounded-full font-semibold"
+            className="bg-white p-2 px-3 flex items-center text-black rounded-full font-semibold rounded-full"
           >
-            <span>{keyword}</span>
+            <span className="text-sm">{keyword}</span>
             <button
               onClick={() => removeKeyword(keyword)}
               className="font-mono ml-2"
             >
-              x
+              <X className="size-4" />
             </button>
           </div>
         ))}
@@ -69,9 +58,17 @@ function Keywords() {
           inputRef.current?.value && addKeyword(inputRef.current?.value);
           inputRef.current!.value = "";
         }}
+        className="flex gap-3 mt-10 justify-center"
       >
-        <input type="text" ref={inputRef} className="text-black" />
-        <button type="submit">Add</button>
+        <div className="flex gap-3 justify-center">
+          <Input
+            type="text"
+            ref={inputRef}
+            className="text-white w-80 rounded-full bg-neutral-800"
+            placeholder="Enter a keyword"
+          />
+          <Button type="submit" className="rounded-full">Add</Button>
+        </div>
       </form>
     </div>
   );
