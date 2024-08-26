@@ -2,6 +2,7 @@ import Link from "next/link";
 import NavLinks from "@/components/ui/dashboard/nav-links";
 // import AcmeLogo from '@/app/ui/acme-logo';
 import { PowerIcon } from "@heroicons/react/24/outline";
+import { LogoutButton } from "@/components/auth/logout-button";
 
 export default function SideNav() {
   return (
@@ -15,10 +16,7 @@ export default function SideNav() {
       <div className="flex grow flex-row space-x-2 md:flex-col md:space-x-0 md:space-y-2">
         <NavLinks />
         <form className="h-full flex flex-col-reverse">
-          <button className="flex h-[48px] w-full grow items-center justify-center gap-2 rounded-md bg-primary p-3 text-sm font-semibold hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
-            <PowerIcon className="w-6" />
-            <div className="hidden md:block">Sign Out</div>
-          </button>
+          <LogoutButton />
         </form>
       </div>
     </div>

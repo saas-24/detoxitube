@@ -1,9 +1,6 @@
 "use client";
 import { LoginButton } from "@/components/auth/login-button";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { useAuthenticator } from "@aws-amplify/ui-react";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 export const HeroSection = () => {
@@ -33,10 +30,7 @@ export const HeroSection = () => {
           </p>
 
           <div className="space-y-4 md:space-y-0 md:space-x-4">
-            <Button className="w-5/6 md:w-1/4 group/arrow">
-              It's free. Sign up now
-              <ArrowRight className="size-5 ml-2 group-hover/arrow:translate-x-1 transition-transform" />
-            </Button>
+            <LoginButton />
           </div>
         </div>
 
