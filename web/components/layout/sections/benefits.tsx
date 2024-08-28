@@ -47,7 +47,7 @@ export const BenefitsSection = () => {
           </h2>
           <p className="text-xl text-muted-foreground mb-8">
             DetoxiTube helps you take control of your YouTube experience by
-            filtering out unwanted content and keeping you focused on what's
+            filtering out unwanted content and keeping you focused on what&apos;s
             important.
           </p>
         </div>
