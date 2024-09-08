@@ -11,8 +11,8 @@ import { fetchAuthSession } from "aws-amplify/auth/server";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Shadcn - Landing template",
-  description: "Landing template from Shadcn",
+  title: "DetoxiTube",
+  description: "Make YouTube distraction free",
 };
 
 console.log("on server");

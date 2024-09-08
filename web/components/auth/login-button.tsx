@@ -22,7 +22,7 @@ export function LoginButton() {
       }
       className="w-5/6 md:w-1/4 font-bold group/arrow"
     >
-      It's free. Sign up now
+      It&apos;s free. Sign up now
       <ArrowRight className="size-5 ml-2 group-hover/arrow:translate-x-1 transition-transform" />
     </Button>
   );
