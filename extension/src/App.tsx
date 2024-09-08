@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import Component from "./Component";
 import { Amplify } from "aws-amplify";

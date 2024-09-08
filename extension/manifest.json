@@ -4,7 +4,11 @@
   "version": "0.1",
   "manifest_version": 3,
   "host_permissions": ["http://localhost:3000/*"],
-  "permissions": ["bookmarks", "cookies", "storage"],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
   "action": {
     "default_title": "Detoxify",
     "default_icon": "icon.png",
