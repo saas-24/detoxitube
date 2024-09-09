@@ -4,7 +4,7 @@ Detoxitube is a browser extension designed to enhance focus by blurring all YouT
 
 ## How to load the extension
 
-1. Create new [huggingface access token](https://huggingface.co/google/gemma-2-9b-it).
+1. Create new [huggingface access token](https://huggingface.co/google/gemma-2-9b-it) (you can experiment for free).
 
 ![alt text](image1.png)
 
@@ -27,7 +27,7 @@ Detoxitube is a browser extension designed to enhance focus by blurring all YouT
 3. Clone the forked repository to your local machine.
 
 ```markdown
-git clone https://github.com/your-username/AnimeHub.git
+git clone https://github.com/saas-24/detoxitube.git
 ```
 
 4. Change the present working directory.
