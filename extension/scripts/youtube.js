@@ -15,10 +15,7 @@ function blurElements(elem, isRelated) {
 }
 
 function getVideoTitle(elem) {
-  let titleElem = elem.querySelector("#video-title-link");
-  if (!titleElem) {
-    titleElem = elem.querySelector("#title-container");
-  }
+  let titleElem = elem.querySelector("#video-title");
   if (!titleElem) {
     return;
   }
