@@ -20,7 +20,7 @@
   "content_scripts": [
     {
       "js": ["scripts/youtube.js"],
-      "matches": ["https://*.youtube.com/*"]
+      "matches": ["https://www.youtube.com/"]
     }
   ],
   "externally_connectable": {
