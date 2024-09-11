@@ -8,11 +8,11 @@ Detoxitube is a browser extension designed to enhance focus by blurring all YouT
 
 ![alt text](image1.png)
 
-2. Copy it and paste it here
+2. Copy it and paste it in youtube.js
 
 ![alt text](image2.png)
 
-3. Load unpacked the extension folder
+3. Load unpacked the extension folder and toggle the developer mode
 
 ![alt text](image3.png)
 
@@ -54,4 +54,4 @@ git push origin branch-name
 
 8. Make a pull request on Github.
 
-### Happy distraction free journey! 🍿
+### Happy distraction free youtube journey! 🍿
