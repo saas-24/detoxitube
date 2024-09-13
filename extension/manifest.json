@@ -3,11 +3,7 @@
   "description": "Detoxify your digital experience",
   "version": "0.1",
   "manifest_version": 3,
-  "permissions": [
-    "storage",
-    "activeTab",
-    "scripting"
-  ],
+  "permissions": ["storage", "activeTab", "scripting", "tabs"],
   "action": {
     "default_title": "Detoxify",
     "default_icon": "icon.png",
@@ -16,10 +12,7 @@
   "content_scripts": [
     {
       "js": ["dist/assets/content.js"],
-      "matches": [
-        "https://www.youtube.com/",
-        "https://youtube.com/"
-      ]
+      "matches": ["https://www.youtube.com/", "https://youtube.com/"]
     }
   ]
 }

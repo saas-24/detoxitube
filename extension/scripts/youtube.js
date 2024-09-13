@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI("API_KEY");
+const genAI = new GoogleGenerativeAI("AIzaSyDfmMf9u76bsgWswGSCr3_vqmbUGnUEv8M");
 
 const schema = {
   description: "List of titles and their relation to the given categories",
@@ -69,6 +69,7 @@ async function enqueueRequest(node, videoTitle) {
 
 async function processQueue() {
   if (isProcessing || requestQueue.length < BATCH_SIZE) return;
+  const storedKeywords = await getStoredKeywords();
 
   isProcessing = true;
 
@@ -76,7 +77,9 @@ async function processQueue() {
     const batch = requestQueue.splice(0, BATCH_SIZE);
     const titles = batch.map((item) => item.videoTitle);
 
-    const prompt = `Category: Coding. Determine if each title is related to the category "Coding". Fill the "isRelated" field with either true or false, and return the JSON: ${JSON.stringify(
+    const prompt = `Categories: ${storedKeywords.join(
+      ", "
+    )}. Determine if each title is related to the given categories. Fill the "isRelated" field with either true or false, and return the JSON: ${JSON.stringify(
       titles.map((title) => ({ title, isRelated: null }))
     )}`;
     console.log(prompt);
@@ -107,7 +110,7 @@ const observer = new MutationObserver((mutations) => {
         if (node.nodeType === Node.ELEMENT_NODE && node.id === "content") {
           let videoTitle = getVideoTitle(node);
           if (videoTitle) {
-            // console.log("New Video Loaded - Title:", videoTitle);
+            console.log("New Video Loaded - Title:", videoTitle);
             enqueueRequest(node, videoTitle);
           }
         }
@@ -116,4 +119,19 @@ const observer = new MutationObserver((mutations) => {
   });
 });
 
-observer.observe(document.body, { childList: true, subtree: true });
+async function getStoredKeywords() {
+  // use chrome storage api, use local for now, we may shift to use sync later on
+  let storedKeywords = await chrome.storage.local.get("keywords");
+  storedKeywords = storedKeywords.keywords;
+  if (!(storedKeywords instanceof Array)) {
+    storedKeywords = [];
+  }
+  return storedKeywords;
+}
+const mainFunc = async () => {
+  let storedKeywords = await getStoredKeywords();
+  console.log(storedKeywords);
+  observer.observe(document.body, { childList: true, subtree: true });
+};
+
+mainFunc();
