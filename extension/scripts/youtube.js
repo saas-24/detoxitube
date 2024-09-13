@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI("AIzaSyDfmMf9u76bsgWswGSCr3_vqmbUGnUEv8M");
+const genAI = new GoogleGenerativeAI("API_KEY");
 
 const schema = {
   description: "List of titles and their relation to the given categories",
