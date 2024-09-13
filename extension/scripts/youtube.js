@@ -119,6 +119,12 @@ const observer = new MutationObserver((mutations) => {
   });
 });
 
+async function getAPIKey() {
+  let apiKey = await chrome.storage.local.get("apiKey");
+  apiKey = apiKey.apiKey;
+  return apiKey;
+}
+
 async function getStoredKeywords() {
   // use chrome storage api, use local for now, we may shift to use sync later on
   let storedKeywords = await chrome.storage.local.get("keywords");
@@ -131,7 +137,12 @@ async function getStoredKeywords() {
 const mainFunc = async () => {
   let storedKeywords = await getStoredKeywords();
   console.log(storedKeywords);
-  observer.observe(document.body, { childList: true, subtree: true });
+  let apiKey = await getAPIKey();
+  if (apiKey) {
+    observer.observe(document.body, { childList: true, subtree: true });
+  } else {
+    alert("API Key not set");
+  }
 };
 
 mainFunc();

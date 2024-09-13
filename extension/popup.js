@@ -1,4 +1,6 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
+  await renderAPIKey();
+
   const addKeywordButton = document.getElementById("add-button");
   const keywordInput = document.getElementById("keyword-input");
   const keywordList = document.getElementById("keyword-list");
@@ -41,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     renderKeywords();
   }
 
-  renderKeywords();
+  await renderKeywords();
 });
 
 async function getStoredKeywords() {
@@ -53,3 +55,50 @@ async function getStoredKeywords() {
   }
   return storedKeywords;
 }
+
+chrome.storage.onChanged.addListener(async (changes, namespace) => {
+  if (namespace === "local") {
+    if (changes.keywords) {
+      await renderKeywords();
+    }
+    if (changes.apiKey) {
+      await renderAPIKey();
+    }
+  }
+});
+
+async function getAPIKey() {
+  let apiKey = await chrome.storage.local.get("apiKey");
+  apiKey = apiKey.apiKey;
+  return apiKey;
+}
+
+async function renderAPIKey() {
+  let apiKey = await getAPIKey();
+  let apiKeyElem = document.getElementById("api-key-info");
+  if (apiKey) {
+    apiKeyElem.textContent = `API Key: ${apiKey.slice(
+      0,
+      3
+    )}********************************`;
+  } else {
+    apiKeyElem.textContent = "API Key not set";
+  }
+}
+
+document.querySelector("#api-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const apiKey = document.querySelector("#api-key-input").value;
+  await chrome.storage.local.set({ apiKey });
+  document.querySelector(
+    "#api-key-info"
+  ).textContent = `API Key: ${apiKey.length}`;
+});
+
+document
+  .querySelector("#delete-api-key-btn")
+  .addEventListener("click", async (e) => {
+    e.preventDefault();
+    await chrome.storage.local.remove("apiKey");
+    document.querySelector("#api-key-info").textContent = "API Key not set";
+  });
