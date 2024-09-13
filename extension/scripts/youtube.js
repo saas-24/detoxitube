@@ -1,9 +1,43 @@
+import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
+
+const genAI = new GoogleGenerativeAI("API_KEY");
+
+const schema = {
+  description: "List of titles and their relation to the given categories",
+  type: SchemaType.ARRAY,
+  items: {
+    type: SchemaType.OBJECT,
+    properties: {
+      title: {
+        type: SchemaType.STRING,
+        description: "Title of the video or content",
+        nullable: false,
+      },
+      isRelated: {
+        type: SchemaType.BOOLEAN,
+        description:
+          "Indicates whether the title is related to the given categories",
+        nullable: false,
+      },
+    },
+    required: ["title", "isRelated"],
+  },
+};
+
+const model = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+  generationConfig: {
+    responseMimeType: "application/json",
+    responseSchema: schema,
+  },
+});
+
 /**
  *
  * @param {HTMLElement} elem
  */
 function blurElem(elem) {
-  elem.style.filter = "blur(10px)";
+  elem.style.visibility = "hidden";
 }
 
 function blurElements(elem, isRelated) {
@@ -22,6 +56,50 @@ function getVideoTitle(elem) {
   return titleElem.innerText;
 }
 
+const requestQueue = [];
+const BATCH_SIZE = 5;
+let isProcessing = false;
+
+async function enqueueRequest(node, videoTitle) {
+  requestQueue.push({ node, videoTitle });
+  if (requestQueue.length >= BATCH_SIZE && !isProcessing) {
+    processQueue();
+  }
+}
+
+async function processQueue() {
+  if (isProcessing || requestQueue.length < BATCH_SIZE) return;
+
+  isProcessing = true;
+
+  while (requestQueue.length >= BATCH_SIZE) {
+    const batch = requestQueue.splice(0, BATCH_SIZE);
+    const titles = batch.map((item) => item.videoTitle);
+
+    const prompt = `Category: Coding. Determine if each title is related to the category "Coding". Fill the "isRelated" field with either true or false, and return the JSON: ${JSON.stringify(
+      titles.map((title) => ({ title, isRelated: null }))
+    )}`;
+    console.log(prompt);
+
+    try {
+      const result = await model.generateContent(prompt);
+      const processedTitles = JSON.parse(result.response.text());
+      console.log("Processed titles:", processedTitles);
+
+      processedTitles.forEach((item, index) => {
+        const { node } = batch[index];
+        blurElements(node, item.isRelated);
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    } catch (error) {
+      console.error("Error processing batch:", error);
+    }
+  }
+
+  isProcessing = false;
+}
+
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
     if (mutation.type === "childList") {
@@ -29,22 +107,8 @@ const observer = new MutationObserver((mutations) => {
         if (node.nodeType === Node.ELEMENT_NODE && node.id === "content") {
           let videoTitle = getVideoTitle(node);
           if (videoTitle) {
-            console.log("New Video Loaded - Title:", videoTitle);
-
-            query({
-              inputs: `Title: '${videoTitle}'\n\nCategories: Coding, Podcast, Business.\n\nIs the title related to any of the categories? Answer with only "true" or "false". Do not provide any explanation, just output "true" or "false".`,
-            }).then((response) => {
-              const generatedText = response[0]?.generated_text;
-              console.log(generatedText);
-              
-              const isRelated = generatedText.trim().endsWith('true');
-              console.log("Blur Status:", !isRelated);
-
-              blurElements(node, isRelated);
-            }).catch((error) => {
-              console.error("Error in LLM query:", error);
-            });
-
+            // console.log("New Video Loaded - Title:", videoTitle);
+            enqueueRequest(node, videoTitle);
           }
         }
       });
@@ -53,19 +117,3 @@ const observer = new MutationObserver((mutations) => {
 });
 
 observer.observe(document.body, { childList: true, subtree: true });
-
-async function query(data) {
-  const response = await fetch(
-    "https://api-inference.huggingface.co/models/google/gemma-2-9b-it",
-    {
-      headers: {
-        Authorization: `Bearer hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`,
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(data),
-    }
-  );
-  const result = await response.json();
-  return result;
-}
