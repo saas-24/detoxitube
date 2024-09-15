@@ -52,16 +52,31 @@ let isProcessing = false;
 
 async function enqueueRequest(node, videoTitle) {
   requestQueue.push({ node, videoTitle });
+  console.log(
+    "stats============> ",
+    isProcessing,
+    requestQueue.map((it) => it.videoTitle).join("\n")
+  );
   if (requestQueue.length >= BATCH_SIZE && !isProcessing) {
-    processQueue();
+    console.log("Call process queue");
+    isProcessing = true;
+
+    const batch = requestQueue.splice(0, BATCH_SIZE);
+    await processQueue(batch);
+
+    isProcessing = false;
   }
 }
 
-async function processQueue() {
-  if (isProcessing || requestQueue.length < BATCH_SIZE) return;
-  const storedKeywords = await getStoredKeywords();
+async function processQueue(batch) {
+  //isProcessing = true;
+  console.log("Processing==============================>", isProcessing);
+  if (isProcessing || requestQueue.length < BATCH_SIZE) {
+    isProcessing = false;
+    return;
+  }
 
-  isProcessing = true;
+  const storedKeywords = await getStoredKeywords();
 
   const genAI = await initializeGenAI();
   if (!genAI) {
@@ -78,52 +93,43 @@ async function processQueue() {
     },
   });
 
-  while (requestQueue.length >= BATCH_SIZE) {
-    const batch = requestQueue.splice(0, BATCH_SIZE);
-    const titles = batch.map((item) => item.videoTitle);
+  // while (requestQueue.length >= BATCH_SIZE) {
+  console.log(
+    "Request queue after ",
+    requestQueue.map((it) => it.videoTitle).join("\n")
+  );
+  const titles = batch.map((item) => item.videoTitle);
 
-    const prompt = `Categories: ${storedKeywords.join(
-      ", "
-    )}. Determine if each title is related to the given categories. Fill the "isRelated" field with either "true" or "false", and return the JSON: ${JSON.stringify(
-      titles.map((title) => ({ title, isRelated: null }))
-    )}`;
-    console.log(prompt);
+  const prompt = `Categories: ${storedKeywords.join(
+    ", "
+  )}. Determine if each title is related to the given categories. Fill the "isRelated" field with either "true" or "false", and return the JSON: ${JSON.stringify(
+    titles.map((title) => ({ title, isRelated: null }))
+  )}`;
+  // console.log(prompt);
 
-    try {
-      const result = await model.generateContent(prompt);
-      const processedTitles = JSON.parse(result.response.text());
-      console.log("Processed titles:", processedTitles);
+  try {
+    const result = await model.generateContent(prompt);
+    const processedTitles = JSON.parse(result.response.text());
+    // console.log("Processed titles:", processedTitles);
 
-      processedTitles.forEach((item, index) => {
-        const { node } = batch[index];
-        blurElements(node, item.isRelated);
-      });
+    processedTitles.forEach((item, index) => {
+      const { node } = batch[index];
+      blurElements(node, item.isRelated);
+    });
 
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-    } catch (error) {
-      console.error("Error processing batch:", error);
-      alert("Error occurred while processing videos. Please check your API key and try again.");
-    }
+    console.log("wait");
+    await delay(5000)
+    console.log("done");
+  } catch (error) {
+    console.error("Error processing batch:", error);
+    alert(
+      "Error occurred while processing videos. Please check your API key and try again."
+    );
   }
+  // }
 
-  isProcessing = false;
+  console.log("Processing done... ");
 }
-
-const observer = new MutationObserver((mutations) => {
-  mutations.forEach((mutation) => {
-    if (mutation.type === "childList") {
-      mutation.addedNodes.forEach((node) => {
-        if (node.nodeType === Node.ELEMENT_NODE && node.id === "content") {
-          let videoTitle = getVideoTitle(node);
-          if (videoTitle) {
-            // console.log("New Video Loaded - Title:", videoTitle);
-            enqueueRequest(node, videoTitle);
-          }
-        }
-      });
-    }
-  });
-});
 
 async function getAPIKey() {
   let apiKey = await chrome.storage.local.get("apiKey");
@@ -150,13 +156,34 @@ async function getStoredKeywords() {
 }
 
 const mainFunc = async () => {
-  let storedKeywords = await getStoredKeywords();
-  console.log(storedKeywords);
+  const observer = new MutationObserver(async (mutations) => {
+    // mutations.forEach((mutation) => {
+
+    // });
+
+    for (let mutation of mutations) {
+      if (mutation.type === "childList") {
+        let nodes = mutation.addedNodes;
+        for (let node of nodes) {
+          if (node.nodeType === Node.ELEMENT_NODE && node.id === "content") {
+            let videoTitle = getVideoTitle(node);
+            if (videoTitle) {
+              // console.log("New Video Loaded - Title:", videoTitle);
+              await enqueueRequest(node, videoTitle);
+            }
+          }
+        }
+      }
+    }
+  });
+
   let apiKey = await getAPIKey();
   if (apiKey) {
     observer.observe(document.body, { childList: true, subtree: true });
   } else {
-    alert("API Key not set. Please set your API key in the extension settings.");
+    alert(
+      "API Key not set. Please set your API key in the extension settings."
+    );
   }
 };
 
