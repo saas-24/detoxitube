@@ -32,10 +32,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AmplifyProvider>
+          {/* <AmplifyProvider> */}
             {/* <Navbar /> */}
             {children}
-          </AmplifyProvider>
+          {/* </AmplifyProvider> */}
         </ThemeProvider>
       </body>
     </html>

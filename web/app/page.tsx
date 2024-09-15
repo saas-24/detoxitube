@@ -9,7 +9,7 @@ import { TeamSection } from "@/components/layout/sections/team";
 export default function Home() {
   return (
     <>
-      <AmplifyConfigureClientSide />
+      {/* <AmplifyConfigureClientSide /> */}
       <HeroSection />
       <BenefitsSection />
       <FeaturesSection />
