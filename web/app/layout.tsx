@@ -33,7 +33,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {/* <AmplifyProvider> */}
-            {/* <Navbar /> */}
             {children}
           {/* </AmplifyProvider> */}
         </ThemeProvider>

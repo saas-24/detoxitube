@@ -23,7 +23,8 @@ export function LoginButton() {
       // }
       className="w-5/6 md:w-1/4 font-semibold group/arrow"
     >
-      <Chrome className="w-4 h-4" />
+      <Chrome className="w-4 h-4 mr-1" />
+
       Install Chrome Extension
       {/* <ArrowRight className="size-5 ml-2 group-hover/arrow:translate-x-1 transition-transform" /> */}
     </Button>

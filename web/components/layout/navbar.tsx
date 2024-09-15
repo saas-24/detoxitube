@@ -1,5 +1,5 @@
 "use client";
-import { ChevronsDown, Github, Menu } from "lucide-react";
+import { Github, Menu } from "lucide-react";
 import React from "react";
 import {
   Sheet,
@@ -21,10 +21,11 @@ import {
 import { Button } from "../ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import logo from "../../public/detoxitube-logo.png";
 import { ToggleTheme } from "./toogle-theme";
-import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
+// import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react";
 import { signIn, signUp, signInWithRedirect } from "@aws-amplify/auth";
-import { LoginButton } from "../auth/login-button";
+// import { LoginButton } from "../auth/login-button";
 
 interface RouteProps {
   href: string;
@@ -74,15 +75,20 @@ const featureList: FeatureProps[] = [
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const { authStatus } = useAuthenticator();
-  if (authStatus === "authenticated") {
-    return;
-  }
+  // const { authStatus } = useAuthenticator();
+  // if (authStatus === "authenticated") {
+  //   return;
+  // }
   return (
     <header className="shadow-inner bg-opacity-15 w-[90%] md:w-[70%] lg:w-[75%] lg:max-w-screen-xl top-5 mx-auto sticky border border-secondary z-40 rounded-2xl flex justify-between items-center p-2 bg-card">
       <Link href="/" className="font-bold text-lg flex items-center">
-        <ChevronsDown className="bg-gradient-to-tr border-secondary from-primary via-primary/70 to-primary rounded-lg w-9 h-9 mr-2 border text-white" />
-        Shadcn
+        <Image
+          src={logo}
+          alt="logo"
+          width={60}
+          height={60}
+        />
+        DetoxiTube
       </Link>
       {/* <!-- Mobile --> */}
       <div className="flex items-center lg:hidden">
@@ -101,9 +107,9 @@ export const Navbar = () => {
             <div>
               <SheetHeader className="mb-4 ml-4">
                 <SheetTitle className="flex items-center">
-                  <Link href="/" className="flex items-center">
-                    <ChevronsDown className="bg-gradient-to-tr border-secondary from-primary via-primary/70 to-primary rounded-lg w-9 h-9 mr-2 border text-white" />
-                    Shadcn
+                  <Link href="/gv" className="flex items-center">
+                    {/* <ChevronsDown className="bg-gradient-to-tr border-secondary from-primary via-primary/70 to-primary rounded-lg w-9 h-9 mr-2 border text-white" /> */}
+                    DetoxiTube
                   </Link>
                 </SheetTitle>
               </SheetHeader>
@@ -126,7 +132,7 @@ export const Navbar = () => {
             <SheetFooter className="flex-col sm:flex-col justify-start items-start">
               <Separator className="mb-2" />
 
-              <ToggleTheme />
+              {/* <ToggleTheme /> */}
             </SheetFooter>
           </SheetContent>
         </Sheet>
@@ -180,18 +186,18 @@ export const Navbar = () => {
       </NavigationMenu>
 
       <div className="hidden lg:flex">
-        <ToggleTheme />
+        {/* <ToggleTheme /> */}
 
         <Button asChild size="sm" variant="ghost" aria-label="View on GitHub">
           <Link
             aria-label="View on GitHub"
-            href="https://github.com/nobruf/shadcn-landing-page.git"
+            href="https://github.com/saas-24/detoxitube"
             target="_blank"
           >
             <Github className="size-5" />
           </Link>
         </Button>
-        <LoginButton />
+        {/* <LoginButton /> */}
       </div>
     </header>
   );
