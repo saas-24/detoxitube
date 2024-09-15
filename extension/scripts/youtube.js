@@ -1,7 +1,5 @@
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI("API_KEY");
-
 const schema = {
   description: "List of titles and their relation to the given categories",
   type: SchemaType.ARRAY,
@@ -23,14 +21,6 @@ const schema = {
     required: ["title", "isRelated"],
   },
 };
-
-const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-  generationConfig: {
-    responseMimeType: "application/json",
-    responseSchema: schema,
-  },
-});
 
 /**
  *
@@ -73,13 +63,28 @@ async function processQueue() {
 
   isProcessing = true;
 
+  const genAI = await initializeGenAI();
+  if (!genAI) {
+    alert("API Key not set or invalid. Please check your settings.");
+    isProcessing = false;
+    return;
+  }
+
+  const model = genAI.getGenerativeModel({
+    model: "gemini-1.5-flash",
+    generationConfig: {
+      responseMimeType: "application/json",
+      responseSchema: schema,
+    },
+  });
+
   while (requestQueue.length >= BATCH_SIZE) {
     const batch = requestQueue.splice(0, BATCH_SIZE);
     const titles = batch.map((item) => item.videoTitle);
 
     const prompt = `Categories: ${storedKeywords.join(
       ", "
-    )}. Determine if each title is related to the given categories. Fill the "isRelated" field with either true or false, and return the JSON: ${JSON.stringify(
+    )}. Determine if each title is related to the given categories. Fill the "isRelated" field with either "true" or "false", and return the JSON: ${JSON.stringify(
       titles.map((title) => ({ title, isRelated: null }))
     )}`;
     console.log(prompt);
@@ -97,6 +102,7 @@ async function processQueue() {
       await new Promise((resolve) => setTimeout(resolve, 5000));
     } catch (error) {
       console.error("Error processing batch:", error);
+      alert("Error occurred while processing videos. Please check your API key and try again.");
     }
   }
 
@@ -110,7 +116,7 @@ const observer = new MutationObserver((mutations) => {
         if (node.nodeType === Node.ELEMENT_NODE && node.id === "content") {
           let videoTitle = getVideoTitle(node);
           if (videoTitle) {
-            console.log("New Video Loaded - Title:", videoTitle);
+            // console.log("New Video Loaded - Title:", videoTitle);
             enqueueRequest(node, videoTitle);
           }
         }
@@ -121,8 +127,16 @@ const observer = new MutationObserver((mutations) => {
 
 async function getAPIKey() {
   let apiKey = await chrome.storage.local.get("apiKey");
-  apiKey = apiKey.apiKey;
-  return apiKey;
+  return apiKey.apiKey;
+}
+
+async function initializeGenAI() {
+  const apiKey = await getAPIKey();
+  if (!apiKey) {
+    console.error("API Key not found in storage");
+    return null;
+  }
+  return new GoogleGenerativeAI(apiKey);
 }
 
 async function getStoredKeywords() {
@@ -134,6 +148,7 @@ async function getStoredKeywords() {
   }
   return storedKeywords;
 }
+
 const mainFunc = async () => {
   let storedKeywords = await getStoredKeywords();
   console.log(storedKeywords);
@@ -141,7 +156,7 @@ const mainFunc = async () => {
   if (apiKey) {
     observer.observe(document.body, { childList: true, subtree: true });
   } else {
-    alert("API Key not set");
+    alert("API Key not set. Please set your API key in the extension settings.");
   }
 };
 

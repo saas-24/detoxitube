@@ -1,0 +1,104 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .app {
+    background-color: #1e1e1e;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+    width: 360px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: #f44336;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: #f44336;
+  }
+
+  .keyword-list {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .keyword {
+    display: inline-block;
+    background-color: #444;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .keyword:hover {
+    background-color: #f44336;
+  }
+
+  input[type="text"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background-color: #333;
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f44336;
+    color: #fff;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 5px;
+  }
+
+  button:hover {
+    background-color: #d32f2f;
+  }
+
+  .api-section {
+    margin-top: 30px;
+  }
+
+  .api-section p {
+    font-size: 14px;
+    color: #bbb;
+  }
+
+  .results {
+    margin-top: 20px;
+  }
+
+  .btn-delete {
+    background-color: #ff5252;
+  }
+
+  .btn-delete:hover {
+    background-color: #d32f2f;
+  }

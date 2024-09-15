@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
   await renderAPIKey();
+  chrome.storage.local.get(console.log)
 
   const addKeywordButton = document.getElementById("add-button");
   const keywordInput = document.getElementById("keyword-input");
@@ -90,6 +91,7 @@ document.querySelector("#api-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const apiKey = document.querySelector("#api-key-input").value;
   await chrome.storage.local.set({ apiKey });
+  chrome.storage.local.get(console.log)
   document.querySelector(
     "#api-key-info"
   ).textContent = `API Key: ${apiKey.length}`;
@@ -100,5 +102,6 @@ document
   .addEventListener("click", async (e) => {
     e.preventDefault();
     await chrome.storage.local.remove("apiKey");
+    chrome.storage.local.get(console.log)
     document.querySelector("#api-key-info").textContent = "API Key not set";
   });
