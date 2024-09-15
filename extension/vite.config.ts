@@ -6,14 +6,15 @@ import * as manifest from "./manifest.json";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), crx({ manifest })],
-  optimizeDeps: {
-    esbuildOptions: {
-      define: {
-        global: "globalThis",
+  build:{
+    target:"esnext",
+    rollupOptions:{
+      input:{
+        popup: "index.html",
       },
+      // output:{
+      //   entryFileNames: "assets/[name].js"
+      // }
     },
-  },
-  server: {
-    port: 4000,
   },
 });

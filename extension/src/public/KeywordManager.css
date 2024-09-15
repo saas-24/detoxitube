@@ -1,0 +1,43 @@
+.app {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 300px;
+    text-align: center;
+    margin: 0 auto;
+    color: #fff;
+  }
+  
+  .keyword-list {
+    margin-top: 10px;
+  }
+  
+  .keyword {
+    display: inline-block;
+    background-color: #444;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin: 5px;
+    cursor: pointer;
+  }
+  
+  input {
+    width: 70%;
+    padding: 8px;
+    margin-right: 5px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+  }
+  
+  button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f44336;
+    color: #fff;
+  }
+  
