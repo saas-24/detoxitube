@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const addKeywordButton = document.getElementById("add-button");
   const keywordInput = document.getElementById("keyword-input");
   const keywordList = document.getElementById("keyword-list");
+  const apiKeyLink = document.getElementById('api-key-link');
   const maxKeywords = 5;
 
   addKeywordButton.addEventListener("click", async () => {
@@ -18,6 +19,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       await renderKeywords();
       keywordInput.value = "";
     }
+  });
+
+  apiKeyLink.addEventListener('click', function (event) {
+    event.preventDefault();
+    chrome.tabs.create({ url: 'https://detoxify-hazel.vercel.app/dashboard' });
   });
 
   async function renderKeywords() {

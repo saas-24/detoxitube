@@ -21,7 +21,7 @@ export function LoginButton() {
       //     }
       //   })
       // }
-      className="w-5/6 md:w-1/4 font-semibold group/arrow"
+      className="font-semibold"
     >
       <Chrome className="w-4 h-4 mr-1" />
 

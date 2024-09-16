@@ -23,13 +23,22 @@ body {
     font-size: 24px;
     margin-bottom: 20px;
     font-weight: 700;
-    color: #f44336;
+    /* color: #f44336; */
   }
 
   h2 {
     font-size: 18px;
     margin-bottom: 10px;
     font-weight: 500;
+    /* color: #f44336; */
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  a:hover {
     color: #f44336;
   }
 

@@ -13,7 +13,7 @@ export default function Home() {
     <>
       {/* <AmplifyConfigureClientSide /> */}
       <Head>
-        <link rel="icon" href="detoxitube-logo.png" />
+        <link rel="icon" href="/detoxitube-logo.png" />
       </Head>
       <Navbar />
       <HeroSection />
