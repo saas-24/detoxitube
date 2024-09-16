@@ -1,22 +1,34 @@
 # DetoxiTube
 
-Detoxitube is a browser extension designed to enhance focus by blurring all YouTube videos except those matching specific user-defined keywords. By filtering out irrelevant content, Detoxitube ensures a distraction-free browsing experience tailored to your interests.
+Detoxitube is a browser extension designed to enhance focus by removing all YouTube videos except those matching specific user-defined needs. By filtering out irrelevant content, Detoxitube ensures a distraction-free browsing experience of youtube tailored to your interests.
 
 ## How to load the extension
 
-1. Create new [huggingface access token](https://huggingface.co/google/gemma-2-9b-it) (you can experiment for free).
+1. Star the repository.
+2. Fork the repository. (Click the Fork button in the top right of this page, click your Profile Image)
+3. Clone the forked repository to your local machine.
 
-![alt text](image1.png)
+```markdown
+git clone https://github.com/your-username/detoxitube.git
+```
 
-2. Copy it and paste it in youtube.js
+4. Change the present working directory.
 
-![alt text](image2.png)
+```markdown
+cd detoxitube/extension
+```
 
-3. Load unpacked the extension folder and toggle the developer mode
+5. Run this command
+```
+npm run build
+```
+
+
+6. Load unpacked the extension folder and toggle the developer mode
 
 ![alt text](image3.png)
 
-4. Open [youtube](https://www.youtube.com/)
+7. Open [youtube](https://www.youtube.com/)
 
 ## How to Contribute to this repository
 
@@ -27,7 +39,7 @@ Detoxitube is a browser extension designed to enhance focus by blurring all YouT
 3. Clone the forked repository to your local machine.
 
 ```markdown
-git clone https://github.com/saas-24/detoxitube.git
+git clone https://github.com/your-username/detoxitube.git
 ```
 
 4. Change the present working directory.
