@@ -1,32 +1,11 @@
-import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { BATCH_SIZE, MODEL_NAME, PROMPT_SCHEMA, TIME_DELAY_MS } from "./config";
 
 async function delay(ms) {
   // console.log("wait");
   await new Promise((resolve) => setTimeout(resolve, ms));
   // console.log("done");
 }
-
-const schema = {
-  description: "List of titles and their relation to the given categories",
-  type: SchemaType.ARRAY,
-  items: {
-    type: SchemaType.OBJECT,
-    properties: {
-      title: {
-        type: SchemaType.STRING,
-        description: "Title of the video or content",
-        nullable: false,
-      },
-      isRelated: {
-        type: SchemaType.BOOLEAN,
-        description:
-          "Indicates whether the title is related to the given categories",
-        nullable: false,
-      },
-    },
-    required: ["title", "isRelated"],
-  },
-};
 
 /**
  *
@@ -53,7 +32,6 @@ function getVideoTitle(elem) {
 }
 
 const requestQueue = [];
-const BATCH_SIZE = 5;
 
 async function enqueueRequest(node, videoTitle) {
   // console.log(videoTitle);
@@ -125,10 +103,10 @@ async function startQueueProcessor(storedKeywords, apiKey) {
     return;
   }
   const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
+    model: MODEL_NAME,
     generationConfig: {
       responseMimeType: "application/json",
-      responseSchema: schema,
+      responseSchema: PROMPT_SCHEMA,
     },
   });
 
@@ -136,12 +114,15 @@ async function startQueueProcessor(storedKeywords, apiKey) {
   while (true) {
     i++;
     // console.log("LOOP: ", i);
-    if (requestQueue.length < BATCH_SIZE) {
-      await delay(5000);
+    if (requestQueue.length === 0) {
+      await delay(TIME_DELAY_MS);
       continue;
     }
 
-    const batch = requestQueue.splice(0, BATCH_SIZE);
+    const batch = requestQueue.splice(
+      0,
+      Math.min(BATCH_SIZE, requestQueue.length)
+    );
     const titles = batch.map((item) => item.videoTitle);
     const prompt = `Categories: ${storedKeywords
       .map((category) => `"${category}"`)

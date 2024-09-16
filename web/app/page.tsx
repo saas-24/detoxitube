@@ -7,13 +7,14 @@ import { TestimonialSection } from "@/components/layout/sections/testimonial";
 import { TeamSection } from "@/components/layout/sections/team";
 import { Navbar } from "@/components/layout/navbar";
 import Head from "next/head";
+import logo from "../public/detoxitube-logo.png";
 
 export default function Home() {
   return (
     <>
       {/* <AmplifyConfigureClientSide /> */}
       <Head>
-        <link rel="icon" href="/detoxitube-logo.png" />
+        <link rel="icon" href="../public/detoxitube-logo.png" />
       </Head>
       <Navbar />
       <HeroSection />

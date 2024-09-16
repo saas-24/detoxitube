@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   apiKeyLink.addEventListener('click', function (event) {
     event.preventDefault();
-    chrome.tabs.create({ url: 'https://detoxify-hazel.vercel.app/dashboard' });
+    chrome.tabs.create({ url: 'https://detoxitube.vercel.app/dashboard' });
   });
 
   async function renderKeywords() {
