@@ -15,9 +15,9 @@ export default function SideNav() {
       </Link>
       <div className="flex grow flex-row space-x-2 md:flex-col md:space-x-0 md:space-y-2">
         <NavLinks />
-        <form className="h-full flex flex-col-reverse">
+        {/* <form className="h-full flex flex-col-reverse">
           <LogoutButton />
-        </form>
+        </form> */}
       </div>
     </div>
   );

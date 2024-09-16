@@ -13,17 +13,17 @@ export default function DashboardPage() {
 }
 
 function Dashboard() {
-  useEffect(() => {
-    let sessionData: { [key: string]: string | null } = {};
-    Array.from({ length: localStorage.length }).map((_, i) => {
-      let k = localStorage.key(i);
-      if (k !== null) {
-        sessionData[k] = localStorage.getItem(k);
-      }
-    });
-    console.log(sessionData);
-    sendTokenToChromeExtension({ extensionId: CRX_ID, session: sessionData });
-  }, []);
+  // useEffect(() => {
+  //   let sessionData: { [key: string]: string | null } = {};
+  //   Array.from({ length: localStorage.length }).map((_, i) => {
+  //     let k = localStorage.key(i);
+  //     if (k !== null) {
+  //       sessionData[k] = localStorage.getItem(k);
+  //     }
+  //   });
+  //   console.log(sessionData);
+  //   sendTokenToChromeExtension({ extensionId: CRX_ID, session: sessionData });
+  // }, []);
   return <Keywords />;
 }
 
