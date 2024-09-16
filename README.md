@@ -18,8 +18,10 @@ git clone https://github.com/your-username/detoxitube.git
 cd detoxitube/extension
 ```
 
-5. Run this command
+5. Run following commands
 ```
+npm i
+
 npm run build
 ```
 
