@@ -1,9 +1,9 @@
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 
 async function delay(ms) {
-  console.log("wait");
+  // console.log("wait");
   await new Promise((resolve) => setTimeout(resolve, ms));
-  console.log("done");
+  // console.log("done");
 }
 
 const schema = {
@@ -56,21 +56,13 @@ const requestQueue = [];
 const BATCH_SIZE = 5;
 
 async function enqueueRequest(node, videoTitle) {
+  // console.log(videoTitle);
   requestQueue.push({ node, videoTitle });
 }
 
 async function getAPIKey() {
   let apiKey = await chrome.storage.local.get("apiKey");
   return apiKey.apiKey;
-}
-
-async function initializeGenAI() {
-  const apiKey = await getAPIKey();
-  if (!apiKey) {
-    console.error("API Key not found in storage");
-    return null;
-  }
-  return new GoogleGenerativeAI(apiKey);
 }
 
 async function getStoredKeywords() {
@@ -99,31 +91,39 @@ const mainFunc = async () => {
     });
   });
 
+  const storedKeywords = await getStoredKeywords();
+  // console.log(storedKeywords);
+  if (storedKeywords.length == 0) {
+    alert(
+      "Keywords not set. Please set your keywords in the extension settings."
+    );
+    return;
+  }
   let apiKey = await getAPIKey();
-  if (apiKey) {
-    observer.observe(document.body, { childList: true, subtree: true });
-  } else {
+  // console.log(apiKey);
+  if (!apiKey) {
     alert(
       "API Key not set. Please set your API key in the extension settings."
     );
+    return;
   }
 
-  startQueueProcessor();
+  observer.observe(document.body, { childList: true, subtree: true });
+  startQueueProcessor(storedKeywords, apiKey);
 };
 
 mainFunc();
 
-async function startQueueProcessor() {
-  console.log("started processor ==============================>");
-  const storedKeywords = await getStoredKeywords();
+async function startQueueProcessor(storedKeywords, apiKey) {
+  // console.log("started queue processor ==============================>");
 
-  const genAI = await initializeGenAI();
+  const genAI = new GoogleGenerativeAI(apiKey);
+  // console.log(genAI);
   if (!genAI) {
-    alert("API Key not set or invalid. Please check your settings.");
+    alert("API Key invalid. Please check your settings.");
     isProcessing = false;
     return;
   }
-
   const model = genAI.getGenerativeModel({
     model: "gemini-1.5-flash",
     generationConfig: {
@@ -131,25 +131,23 @@ async function startQueueProcessor() {
       responseSchema: schema,
     },
   });
-  let i = 0;
 
+  let i = 0;
   while (true) {
     i++;
-    console.log("LOOP: ", i);
+    // console.log("LOOP: ", i);
     if (requestQueue.length < BATCH_SIZE) {
       await delay(5000);
       continue;
     }
+
     const batch = requestQueue.splice(0, BATCH_SIZE);
     const titles = batch.map((item) => item.videoTitle);
-    console.log(
-      "Request queue after ",
-      requestQueue.map((it) => it.videoTitle).join("\n")
-    );
-
-    const prompt = `Categories: ${storedKeywords.join(
-      ", "
-    )}. Determine if each title is related to the given categories. Fill the "isRelated" field with either "true" or "false", and return the JSON: ${JSON.stringify(
+    const prompt = `Categories: ${storedKeywords
+      .map((category) => `"${category}"`)
+      .join(
+        ", "
+      )}. Determine if each title is related to the given categories. Fill the "isRelated" field with either "true" or "false", and return the JSON: ${JSON.stringify(
       titles.map((title) => ({ title, isRelated: null }))
     )}`;
     // console.log(prompt);
@@ -169,6 +167,7 @@ async function startQueueProcessor() {
         "Error occurred while processing videos. Please check your API key and try again."
       );
     }
+
     await delay(5000);
   }
 }
