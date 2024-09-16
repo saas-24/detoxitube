@@ -1,5 +1,11 @@
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 
+async function delay(ms) {
+  console.log("wait");
+  await new Promise((resolve) => setTimeout(resolve, ms));
+  console.log("done");
+}
+
 const schema = {
   description: "List of titles and their relation to the given categories",
   type: SchemaType.ARRAY,
@@ -48,87 +54,9 @@ function getVideoTitle(elem) {
 
 const requestQueue = [];
 const BATCH_SIZE = 5;
-let isProcessing = false;
 
 async function enqueueRequest(node, videoTitle) {
   requestQueue.push({ node, videoTitle });
-  console.log(
-    "stats============> ",
-    isProcessing,
-    requestQueue.map((it) => it.videoTitle).join("\n")
-  );
-  if (requestQueue.length >= BATCH_SIZE && !isProcessing) {
-    console.log("Call process queue");
-    isProcessing = true;
-
-    const batch = requestQueue.splice(0, BATCH_SIZE);
-    await processQueue(batch);
-
-    isProcessing = false;
-  }
-}
-
-async function processQueue(batch) {
-  //isProcessing = true;
-  console.log("Processing==============================>", isProcessing);
-  if (isProcessing || requestQueue.length < BATCH_SIZE) {
-    isProcessing = false;
-    return;
-  }
-
-  const storedKeywords = await getStoredKeywords();
-
-  const genAI = await initializeGenAI();
-  if (!genAI) {
-    alert("API Key not set or invalid. Please check your settings.");
-    isProcessing = false;
-    return;
-  }
-
-  const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
-    generationConfig: {
-      responseMimeType: "application/json",
-      responseSchema: schema,
-    },
-  });
-
-  // while (requestQueue.length >= BATCH_SIZE) {
-  console.log(
-    "Request queue after ",
-    requestQueue.map((it) => it.videoTitle).join("\n")
-  );
-  const titles = batch.map((item) => item.videoTitle);
-
-  const prompt = `Categories: ${storedKeywords.join(
-    ", "
-  )}. Determine if each title is related to the given categories. Fill the "isRelated" field with either "true" or "false", and return the JSON: ${JSON.stringify(
-    titles.map((title) => ({ title, isRelated: null }))
-  )}`;
-  // console.log(prompt);
-
-  try {
-    const result = await model.generateContent(prompt);
-    const processedTitles = JSON.parse(result.response.text());
-    // console.log("Processed titles:", processedTitles);
-
-    processedTitles.forEach((item, index) => {
-      const { node } = batch[index];
-      blurElements(node, item.isRelated);
-    });
-
-    console.log("wait");
-    await delay(5000)
-    console.log("done");
-  } catch (error) {
-    console.error("Error processing batch:", error);
-    alert(
-      "Error occurred while processing videos. Please check your API key and try again."
-    );
-  }
-  // }
-
-  console.log("Processing done... ");
 }
 
 async function getAPIKey() {
@@ -156,25 +84,19 @@ async function getStoredKeywords() {
 }
 
 const mainFunc = async () => {
-  const observer = new MutationObserver(async (mutations) => {
-    // mutations.forEach((mutation) => {
-
-    // });
-
-    for (let mutation of mutations) {
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
       if (mutation.type === "childList") {
-        let nodes = mutation.addedNodes;
-        for (let node of nodes) {
+        mutation.addedNodes.forEach((node) => {
           if (node.nodeType === Node.ELEMENT_NODE && node.id === "content") {
             let videoTitle = getVideoTitle(node);
             if (videoTitle) {
-              // console.log("New Video Loaded - Title:", videoTitle);
-              await enqueueRequest(node, videoTitle);
+              enqueueRequest(node, videoTitle);
             }
           }
-        }
+        });
       }
-    }
+    });
   });
 
   let apiKey = await getAPIKey();
@@ -185,6 +107,68 @@ const mainFunc = async () => {
       "API Key not set. Please set your API key in the extension settings."
     );
   }
+
+  startQueueProcessor();
 };
 
 mainFunc();
+
+async function startQueueProcessor() {
+  console.log("started processor ==============================>");
+  const storedKeywords = await getStoredKeywords();
+
+  const genAI = await initializeGenAI();
+  if (!genAI) {
+    alert("API Key not set or invalid. Please check your settings.");
+    isProcessing = false;
+    return;
+  }
+
+  const model = genAI.getGenerativeModel({
+    model: "gemini-1.5-flash",
+    generationConfig: {
+      responseMimeType: "application/json",
+      responseSchema: schema,
+    },
+  });
+  let i = 0;
+
+  while (true) {
+    i++;
+    console.log("LOOP: ", i);
+    if (requestQueue.length < BATCH_SIZE) {
+      await delay(5000);
+      continue;
+    }
+    const batch = requestQueue.splice(0, BATCH_SIZE);
+    const titles = batch.map((item) => item.videoTitle);
+    console.log(
+      "Request queue after ",
+      requestQueue.map((it) => it.videoTitle).join("\n")
+    );
+
+    const prompt = `Categories: ${storedKeywords.join(
+      ", "
+    )}. Determine if each title is related to the given categories. Fill the "isRelated" field with either "true" or "false", and return the JSON: ${JSON.stringify(
+      titles.map((title) => ({ title, isRelated: null }))
+    )}`;
+    // console.log(prompt);
+
+    try {
+      const result = await model.generateContent(prompt);
+      const processedTitles = JSON.parse(result.response.text());
+      // console.log("Processed titles:", processedTitles);
+
+      processedTitles.forEach((item, index) => {
+        const { node } = batch[index];
+        blurElements(node, item.isRelated);
+      });
+    } catch (error) {
+      console.error("Error processing batch:", error);
+      alert(
+        "Error occurred while processing videos. Please check your API key and try again."
+      );
+    }
+    await delay(5000);
+  }
+}
