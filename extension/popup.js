@@ -94,13 +94,10 @@ async function renderAPIKey() {
 }
 
 document.querySelector("#api-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
   const apiKey = document.querySelector("#api-key-input").value;
   await chrome.storage.local.set({ apiKey });
   chrome.storage.local.get(console.log)
-  document.querySelector(
-    "#api-key-info"
-  ).textContent = `API Key: ${apiKey.length}`;
+  await renderAPIKey();
 });
 
 document
