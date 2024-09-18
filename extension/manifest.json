@@ -3,7 +3,7 @@
   "description": "Detoxify your digital experience",
   "version": "0.1",
   "manifest_version": 3,
-  "permissions": ["storage", "tabs"],
+  "permissions": ["storage"],
   "action": {
     "default_title": "DetoxiTube",
     "default_icon": "icon.png",
