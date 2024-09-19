@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="w-full p-4">
           <div className="flex items-center justify-center gap-8">
             <Link
-              href=""
+              href="https://chromewebstore.google.com/detail/detoxitube/ncoimiljegdhobghfelodibmnncepmad"
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-grey-50 duration-300"

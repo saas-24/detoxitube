@@ -5,28 +5,19 @@ import { Button } from "../ui/button";
 import { Chrome } from "lucide-react";
 // import { useAuthenticator } from "@aws-amplify/ui-react";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export function LoginButton() {
   // const { signOut } = useAuthenticator();
   return (
-    <Button
-      // onClick={() =>
-      //   signInWithRedirect({ provider: "Google" }).catch((error) => {
-      //     if (
-      //       error instanceof AuthError &&
-      //       error.name === "UserAlreadyAuthenticatedException"
-      //     ) {
-      //       signOut();
-      //       signInWithRedirect({ provider: "Google" });
-      //     }
-      //   })
-      // }
-      className="font-semibold"
+    <Link
+      href="https://chromewebstore.google.com/detail/detoxitube/ncoimiljegdhobghfelodibmnncepmad"
+      target="_blank"
     >
-      <Chrome className="w-4 h-4 mr-1" />
-
-      Install Chrome Extension
-      {/* <ArrowRight className="size-5 ml-2 group-hover/arrow:translate-x-1 transition-transform" /> */}
-    </Button>
+      <Button className="font-semibold">
+        <Chrome className="w-4 h-4 mr-1" />
+        Install Chrome Extension
+      </Button>
+    </Link>
   );
 }
