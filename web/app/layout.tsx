@@ -3,10 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/layout/theme-provider";
-import AmplifyProvider from "@/providers/amplify";
-import { Amplify } from "aws-amplify";
-import config from "@/amplify-config.json";
-import { fetchAuthSession } from "aws-amplify/auth/server";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,9 +29,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {/* <AmplifyProvider> */}
-            {children}
-          {/* </AmplifyProvider> */}
+          {children}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
